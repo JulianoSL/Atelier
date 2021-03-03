@@ -1,0 +1,9 @@
+form {
+    height: 80vh;
+    text-align: center;
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+}
