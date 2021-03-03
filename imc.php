@@ -9,7 +9,7 @@
  */
 session_start();
 include_once("./fonctions/func.php");
-
+verifierSession();
 $erreur = "";
 $calcul = "";
 

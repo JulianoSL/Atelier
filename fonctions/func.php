@@ -242,12 +242,21 @@ function connect($email, $password)
     }
     return $answer;
 }
+//fonction qui calcule l'imc
 function calculerImc($taille, $poids)
 {
-    //imc = kg/m2
+    //imc = kg/m2   
     return $poids / ($taille * $taille);
 }
-
+/**
+ * ajoute une data dans la bd
+ *
+ * @param [int] $taille
+ * @param [int] $poids
+ * @param [date] $date
+ * @param [int] $idUtilisateur
+ * @return void
+ */
 function ajouterImcData($taille, $poids, $date, $idUtilisateur)
 {
     static $ps = null;
@@ -270,4 +279,16 @@ function ajouterImcData($taille, $poids, $date, $idUtilisateur)
         echo $e->getMessage();
     }
     return $answer;
+}
+
+/**
+ * verifie si la variable connected de la session est crée ou non, cela empeche un utilisateur d'acceder a la page par url brut
+ *
+ * @return void
+ */
+function verifierSession()
+{
+    if (!$_SESSION["connected"] || !isset($_SESSION["connected"])) {
+        header('Location: index.php');
+    }
 }

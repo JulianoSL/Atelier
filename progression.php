@@ -8,6 +8,8 @@
  * Version      :   1.0, JSL
  */
 session_start();
+include_once("./fonctions/func.php");
+verifierSession();
 ?>
 <!DOCTYPE html>
 <html lang="en">
