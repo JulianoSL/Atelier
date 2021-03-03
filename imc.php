@@ -21,7 +21,7 @@ if (isset($_POST["Calculer"])) {
   if ($taille && $poids && $date) {
     $calcul = round((calculerImc($taille, $poids)) * 10) / 10;
     if ($check) {
-      ajouterImcData($taille, $poids, $date);
+      ajouterImcData($taille, $poids, $date, $_SESSION["idUtilisateur"]);
     }
   }
 }

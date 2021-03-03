@@ -15,7 +15,7 @@ const SURPOIDS = 25;
 const MAIGREUR = 18.5;
 const IDEAL = 21.75;
 
-fetch('http://127.0.0.1/Documentation/data.php')
+fetch('http://127.0.0.1/Doc/Documentation/data.php')
     .then(response => response.text())
     .then((data) => {
         record = JSON.parse(data);

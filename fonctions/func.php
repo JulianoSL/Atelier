@@ -44,19 +44,24 @@ function dbData()
  *
  * @return array string
  */
-function selectAllByDate()
+function selectAllByDate($idUtilisateur)
 {
     static $ps = null;
-    $sql = "SELECT * FROM Data ORDER BY Date ASC";
-    if ($ps == null) {
-        $ps = dbData()->prepare($sql);
-    }
+    $sql = "SELECT * FROM Data  WHERE idUtilisateur = :IDUTILISATEUR ORDER BY Date ASC";
+    $answer = false;
     try {
+        if ($ps == null) {
+            $ps = dbData()->prepare($sql);
+        }
+        $ps->bindParam(':IDUTILISATEUR', $idUtilisateur, PDO::PARAM_STR);
         $ps->execute();
-    } catch (PDOException $e) {
+
+        $answer = $ps->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        $answer = array();
         echo $e->getMessage();
     }
-    return $ps->fetchAll(PDO::FETCH_ASSOC);
+    return $answer;
 }
 /**
  * cherche l'element dans la base de donnee afin de l'afficher et le modifier 
@@ -243,21 +248,20 @@ function calculerImc($taille, $poids)
     return $poids / ($taille * $taille);
 }
 
-function ajouterImcData($taille, $poids, $date)
+function ajouterImcData($taille, $poids, $date, $idUtilisateur)
 {
     static $ps = null;
-    $sql = "INSERT INTO Utilisateurs (Nom,Prenom,DateNaissance,Mail,Mdp) VALUE(:NOM,:PRENOM,:NAISSANCE,:MAIL,:MDP)";
+    $sql = "INSERT INTO Data (idUtilisateur,Poids,Taille,Date) VALUE(:IDUTILISATEUR,:POIDS,:TAILLE,:DATE)";
 
     $answer = false;
     try {
         if ($ps == null) {
             $ps = dbData()->prepare($sql);
         }
-        $ps->bindParam(':NOM', $nom, PDO::PARAM_STR);
-        $ps->bindParam(':PRENOM', $prenom, PDO::PARAM_STR);
-        $ps->bindParam(':NAISSANCE', $naissance, PDO::PARAM_STR);
-        $ps->bindParam(':MAIL', $mail, PDO::PARAM_STR);
-        $ps->bindParam(':MDP', $mdp, PDO::PARAM_STR);
+        $ps->bindParam(':IDUTILISATEUR', $idUtilisateur, PDO::PARAM_STR);
+        $ps->bindParam(':POIDS', $poids, PDO::PARAM_STR);
+        $ps->bindParam(':TAILLE', $taille, PDO::PARAM_STR);
+        $ps->bindParam(':DATE', $date, PDO::PARAM_STR);
         $ps->execute();
 
         $answer = $ps->fetchAll(PDO::FETCH_ASSOC);
