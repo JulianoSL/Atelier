@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+session_start();
+?>
 <html lang="en">
 
 <head>
@@ -9,7 +12,7 @@
 </head>
 
 <body>
-<?php include_once("navbar.php"); ?>
+  <?php include_once("navbar.php"); ?>
   <main>
 
   </main>
