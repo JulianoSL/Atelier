@@ -5,7 +5,7 @@ Date     :  Fin 2020
 Desc.    :  fonctions pour l'ensemble des pages de test de graphiques
 Version  :  1.0
 */
-require "/var/www/html/Documentation/fonctions/constantes.inc.php";
+require("constantes.inc.php");
 
 /**
  * Connecteur de la base de données du .
