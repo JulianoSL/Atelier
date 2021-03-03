@@ -19,7 +19,8 @@ if (isset($_POST["Calculer"])) {
   $date = filter_input(INPUT_POST, "Date", FILTER_SANITIZE_STRING);
   $check = filter_input(INPUT_POST, "Data");
   if ($taille && $poids && $date) {
-    $calcul = round((calculerImc($taille, $poids)) * 10) / 10;
+    $calcul = calculerImc($taille,$poids);
+   // $calcul = round((calculerImc($taille, $poids)) * 10) / 10;
     if ($check) {
       ajouterImcData($taille, $poids, $date, $_SESSION["idUtilisateur"]);
     }
@@ -49,7 +50,7 @@ if (isset($_POST["Calculer"])) {
       <div>
         <h1>Calcul de l'IMC :</h1>
         <p>
-          <label>Taille en Cm : </label><input type="number" name="Taille" placeholder="150 cm" min="0" step=".1" required>
+          <label>Taille en M : </label><input type="number" name="Taille" placeholder="1.50 M" min="0" step=".01" required>
         </p>
         <p>
           <label>Poids en Kg : </label> <input type="number" name="Poids" placeholder="50 kg" min="0" step=".5" required>

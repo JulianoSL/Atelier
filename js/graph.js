@@ -101,19 +101,19 @@ window.onresize = resize;
  *
  * @return void
  */
-// function modifier() {
-//     if (enabled) {
-//         window.location = "modifier.php?row=" + (row);
-//     }
-// }
+function modifier() {
+    if (enabled) {
+        window.location = "modifier.php?row=" + (row);
+    }
+}
 
 /**
  * permet d'activer ou non le bouton supprimer qui renvoie vers la page de supression
  *
  * @return void
  */
-// function supprimer() {
-//   if (enabled) {
-//     window.location = "supprimer.php?row=" + (row);
-//   }
-// }
+function supprimer() {
+  if (enabled) {
+    window.location = "supprimer.php?row=" + (row);
+  }
+}
