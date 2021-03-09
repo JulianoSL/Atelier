@@ -1,19 +1,38 @@
-//variables
-var gChart;
-var data;
-var itemSelected;
-var row;
-var col;
-var value;
-var enabled = false;
-var imc;
-var date;
-var tab = [];
-var options;
+/** Freeder
+ *  -------
+ *  @file graph.js
+ *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
+ *  @brief Various functions, not specific and widely used.
+ */
 
-const SURPOIDS = 25;
-const MAIGREUR = 18.5;
-const IDEAL = 21.75;
+const SURPOIDS = 25;/**<constante qui définit le seuil de surpoids */
+
+const MAIGREUR = 18.5;/**< constante qui définit le seuil de maigreur*/
+
+const IDEAL = 21.75; /**< constante qui définit le seuil idéal*/
+
+var gChart;/**<la variable du graphique */
+
+var data;/**<contient le graphique avec les données (non dessiné) */
+
+var itemSelected;/**<contient le point séléctionné sur le graphique */
+
+var row;/**<la ligne du graphique */
+
+var col;/**<la colonne du graphique */
+
+var value;/**<utilisé pour stocker la valeur correspondante au point séléctionné */
+
+var enabled = false;/**<utilisé pour définir la propriété enabled des boutons modifier et supprimer */
+
+var imc;/**<l'indice de masse corporelle */
+
+var date;/**<la date */
+
+var tab = [];/**<le tableau contenant les données du graphiques */
+
+var options;/**<les options du graphique */
+
 
 fetch('http://127.0.0.1/Doc/Documentation/data.php')
     .then(response => response.text())
@@ -49,10 +68,7 @@ function drawChart() {
     tab.push(['Year', 'Surpoids', 'Maigreur', "IMC idéal", "Votre IMC"]);
     recherchePoints();
     data = google.visualization.arrayToDataTable(tab);
-
-    /**
-     * les options du graphique
-     */
+      
     options = {
         title: 'Graphique IMC',
         curveType: 'function',
@@ -113,7 +129,7 @@ function modifier() {
  * @return void
  */
 function supprimer() {
-  if (enabled) {
-    window.location = "supprimer.php?row=" + (row);
-  }
+    if (enabled) {
+        window.location = "supprimer.php?row=" + (row);
+    }
 }

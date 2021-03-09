@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <?php
+/** Freeder
+ *  -------
+ *  @file
+ *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
+ *  @brief Various functions, not specific and widely used.
+ */
 /**
  * Auteur       :   Souza Luz Juliano 
  * Date         :   
@@ -15,13 +21,31 @@ if ($_SESSION["connected"]) {
     //header('Location: index.php');
 }
 if (isset($_POST["inscription"])) {
+    /**
+     * le nom de l'utilisateur
+     */
     $nom = filter_input(INPUT_POST, "nom", FILTER_SANITIZE_STRING);
+    /**
+     * le prenom de l'utilisateur
+     */
     $prenom = filter_input(INPUT_POST, "prenom", FILTER_SANITIZE_STRING);
+    /**
+     * la date de naissance de l'utilisateur
+     */
     $naissance = filter_input(INPUT_POST, "naissance", FILTER_SANITIZE_STRING);
+    /**
+     * l'email de l'utilisateur
+     */
     $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+    /**
+     * le mot de passe de l'utilisateur
+     */
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 
     if ($nom && $prenom && $naissance && $email && $password) {
+        /**
+         * hachage du mot de passe
+         */
         $password = password_hash($password,PASSWORD_BCRYPT);
         signIn($nom, $prenom, $naissance, $email, $password);
         $_SESSION["idUtilisateur"] = connect($email, $password);

@@ -1,6 +1,15 @@
 <?php
+
+/** Freeder
+ *  -------
+ *  @file
+ *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
+ *  @brief Various functions, not specific and widely used.
+ */
 include_once("fonctions/func.php");
-//récupère la page où se trouve l'utilisateur
+/**
+ * récupère la page où se trouve l'utilisateur
+ */
 $page = basename($_SERVER['PHP_SELF']);
 ?>
 <nav>

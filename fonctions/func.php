@@ -1,4 +1,11 @@
 <?php
+
+/** Freeder
+ *  -------
+ *  @file
+ *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
+ *  @brief Various functions, not specific and widely used.
+ */
 /*
 Auteur   :  Juliano Souza Luz
 Date     :  Fin 2020
@@ -242,7 +249,13 @@ function connect($email, $password)
     }
     return $answer;
 }
-//fonction qui calcule l'imc
+/**
+ * fonction qui calcule l'imc
+ *
+ * @param float $taille
+ * @param float $poids
+ * @return float
+ */
 function calculerImc($taille, $poids)
 {
     //imc = kg/m2   
@@ -251,10 +264,10 @@ function calculerImc($taille, $poids)
 /**
  * ajoute une data dans la bd
  *
- * @param [int] $taille
- * @param [int] $poids
- * @param [date] $date
- * @param [int] $idUtilisateur
+ * @param int $taille
+ * @param int $poids
+ * @param date $date
+ * @param int $idUtilisateur
  * @return void
  */
 function ajouterImcData($taille, $poids, $date, $idUtilisateur)
@@ -290,5 +303,6 @@ function verifierSession()
 {
     if (!$_SESSION["connected"] || !isset($_SESSION["connected"])) {
         header('Location: index.php');
+        exit();
     }
 }

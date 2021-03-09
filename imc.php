@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <?php
+/** Freeder
+ *  -------
+ *  @file
+ *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
+ *  @brief Various functions, not specific and widely used.
+ */
 /**
  * Auteur       :   Souza Luz Juliano 
  * Date         :   
@@ -10,13 +16,31 @@
 session_start();
 include_once("./fonctions/func.php");
 verifierSession();
+/**
+ * le message d'erreur, si erreur il y a
+ */
 $erreur = "";
+/**
+ * contient le résultat du calcul pour l'imc
+ */
 $calcul = "";
 
 if (isset($_POST["Calculer"])) {
+  /**
+   * la taille de l'utilisateur
+   */
   $taille = filter_input(INPUT_POST, "Taille", FILTER_SANITIZE_STRING);
+  /**
+   * le poids de l'utilisateur
+   */
   $poids = filter_input(INPUT_POST, "Poids", FILTER_SANITIZE_STRING);
+  /**
+   * la date qui correspond au poids et la taille de l'utilisateur
+   */
   $date = filter_input(INPUT_POST, "Date", FILTER_SANITIZE_STRING);
+  /**
+   * si on a coché le bouton pour enregister l'imc
+   */
   $check = filter_input(INPUT_POST, "Data");
   if ($taille && $poids && $date) {
     $calcul = calculerImc($taille,$poids);

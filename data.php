@@ -1,5 +1,10 @@
 <?php
-
+/** Freeder
+ *  -------
+ *  @file
+ *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
+ *  @brief Various functions, not specific and widely used.
+ */
 /**
  * Auteur       :   Souza Luz Juliano 
  * Date         :   

@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <?php
+/** Freeder
+ *  -------
+ *  @file
+ *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
+ *  @brief Various functions, not specific and widely used.
+ */
 /**
  * Auteur       :   Souza Luz Juliano 
  * Date         :   
@@ -10,16 +16,26 @@
 session_start();
 include_once("./fonctions/func.php");
 
+/**
+ * le message d'erreur
+ */
 $erreur = "";
 
 if (isset($_POST["Connexion"])) {   
+    /**
+     * l'email de l'utilisateur
+     */
     $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+    /**
+     * le mot de passe de l'utilisateur
+     */
     $password = filter_input(INPUT_POST, "mdp", FILTER_SANITIZE_STRING);
     if ($email && $password) {
         if (connect($email, $password)) {
             $_SESSION["idUtilisateur"] = connect($email, $password);
             $_SESSION["connected"] = true;
             header('Location: index.php');
+            exit();
         } else {
             $erreur = "Email ou mot de passe incorrect !";
         }
