@@ -939,7 +939,7 @@ FILE_PATTERNS          = *.c \
                          *.qsf \
                          *.ice \
                          *.php \
-                         *.js=doxygen.js \
+                         *.js \
                          *.css
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
@@ -1083,7 +1083,7 @@ SOURCE_BROWSER         = NO
 # classes and enums directly into the documentation.
 # The default value is: NO.
 
-INLINE_SOURCES         = NO
+INLINE_SOURCES         = YES
 
 # Setting the STRIP_CODE_COMMENTS tag to YES will instruct doxygen to hide any
 # special comment blocks from generated source code fragments. Normal C, C++ and
@@ -2243,7 +2243,7 @@ SEARCH_INCLUDES        = YES
 # preprocessor.
 # This tag requires that the tag SEARCH_INCLUDES is set to YES.
 
-INCLUDE_PATH           = 
+INCLUDE_PATH           =
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
 # patterns (like *.h and *.hpp) to filter out the header-files in the

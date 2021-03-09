@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <?php
-/** Freeder
+/** Souza Luz Juliano
  *  -------
- *  @file
- *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
- *  @brief Various functions, not specific and widely used.
+ *  \file
+ *  \brief     connexion de l'utilisateur
+ *  \details   Cette page permet à l'utilisateur de se connecter
+ *  \author    Souza Luz Juliano
+ *  \version   1.0
+ *  \date      2021
+ *  \pre       First initialize the system.
+ *  \bug       
+ *  \warning   
+ *  \copyright JSL
  */
-/**
- * Auteur       :   Souza Luz Juliano 
- * Date         :   
- * Description  :  
- * Page         :   
- * Version      :   1.0, JSL
- */
+
 session_start();
 include_once("./fonctions/func.php");
 

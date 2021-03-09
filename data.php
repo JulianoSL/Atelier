@@ -1,18 +1,26 @@
 <?php
-/** Freeder
+
+/** Souza Luz Juliano
  *  -------
- *  @file
- *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
- *  @brief Various functions, not specific and widely used.
- */
-/**
- * Auteur       :   Souza Luz Juliano 
- * Date         :   
- * Description  :  
- * Page         :   
- * Version      :   1.0, JSL
+ *  \file
+ *  \brief     données json
+ *  \details   affiche les données sur la page pour les récuperer dans une autre page
+ *  \author    Souza Luz Juliano
+ *  \version   1.0
+ *  \date      2021
+ *  \pre       First initialize the system.
+ *  \bug       
+ *  \warning   
+ *  \copyright JSL
  */
 session_start();
 require_once("fonctions/func.php");
-//tableau associatif
+// require_once("fonctions/constantes.inc.php");
+// $token = filter_input(INPUT_GET, "token", FILTER_SANITIZE_STRING);
+// if ($token == TOKEN) {
+//     echo dataToJson(selectAllByDate($_SESSION["idUtilisateur"]));
+// } else {
+//     header("Location:index.php");
+// }
 echo dataToJson(selectAllByDate($_SESSION["idUtilisateur"]));
+

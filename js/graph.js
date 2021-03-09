@@ -1,8 +1,15 @@
-/** Freeder
+/** Souza Luz Juliano
  *  -------
- *  @file graph.js
- *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
- *  @brief Various functions, not specific and widely used.
+ *  \file
+ *  \brief     graphique
+ *  \details   Ce fichier permet de dessiner le graphique
+ *  \author    Souza Luz Juliano
+ *  \version   1.0
+ *  \date      2021
+ *  \pre       First initialize the system.
+ *  \bug       
+ *  \warning   
+ *  \copyright JSL
  */
 
 const SURPOIDS = 25;/**<constante qui définit le seuil de surpoids */

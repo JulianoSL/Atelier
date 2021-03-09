@@ -1,17 +1,17 @@
 <?php
-
-/** Freeder
+/** Souza Luz Juliano
  *  -------
- *  @file
- *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
- *  @brief Various functions, not specific and widely used.
+ *  \file
+ *  \brief     all functions
+ *  \details   Fichier de fonctions
+ *  \author    Souza Luz Juliano
+ *  \version   1.0
+ *  \date      2021
+ *  \pre       First initialize the system.
+ *  \bug       
+ *  \warning   
+ *  \copyright JSL
  */
-/*
-Auteur   :  Juliano Souza Luz
-Date     :  Fin 2020
-Desc.    :  fonctions pour l'ensemble des pages de test de graphiques
-Version  :  1.0
-*/
 require("constantes.inc.php");
 
 /**
