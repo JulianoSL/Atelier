@@ -1,4 +1,5 @@
 <?php
+
 /** Souza Luz Juliano
  *  -------
  *  \file
@@ -20,7 +21,7 @@ require("constantes.inc.php");
  * @static var PDO $dbc
  * @return \PDO
  */
-function dbData()
+function dbImc()
 {
     static $dbc = null;
 
@@ -58,7 +59,7 @@ function selectAllByDate($idUtilisateur)
     $answer = false;
     try {
         if ($ps == null) {
-            $ps = dbData()->prepare($sql);
+            $ps = dbImc()->prepare($sql);
         }
         $ps->bindParam(':IDUTILISATEUR', $idUtilisateur, PDO::PARAM_STR);
         $ps->execute();
@@ -84,7 +85,7 @@ function afficherModif($row)
     $answer = false;
     try {
         if ($ps == null) {
-            $ps = dbData()->prepare($sql);
+            $ps = dbImc()->prepare($sql);
         }
         $ps->bindParam(':ID', $row, PDO::PARAM_STR);
         $ps->execute();
@@ -113,7 +114,7 @@ function Modifier($imc, $date, $row)
     $answer = false;
     try {
         if ($ps == null) {
-            $ps = dbData()->prepare($sql);
+            $ps = dbImc()->prepare($sql);
         }
         $ps->bindParam(':IMC', $imc, PDO::PARAM_STR);
         $ps->bindParam(':DATE', $date, PDO::PARAM_STR);
@@ -142,7 +143,7 @@ function Supprimer($row)
     $answer = false;
     try {
         if ($ps == null) {
-            $ps = dbData()->prepare($sql);
+            $ps = dbImc()->prepare($sql);
         }
         $ps->bindParam(':ID', $row, PDO::PARAM_STR);
         $ps->execute();
@@ -158,8 +159,8 @@ function Supprimer($row)
 /**
  * vérifie si l'utilisateur est sur la page sur laquelle il a cliqué ( retourne ensuite la classe qui permet de mieux voir la page actuelle)
  *
- * @param string $pageActuelle , page où se trouve actuellement l'utilisateur
- * @param string $pageCible , page où l'utilisateur a cliqué
+ * @param string $pageActuelle
+ * @param string $pageCible
  * @return string class css
  */
 function isOnPage($pageActuelle, $pageCible)
@@ -183,28 +184,30 @@ function dataToJson($data)
 /**
  * enregistre un utilisateur dans la base de données
  *
- * @param [string] $nom
- * @param [string] $prenom
- * @param [date] $naissance
- * @param [string] $mail
- * @param [string] $mdp
+ * @param string $nom
+ * @param string $prenom
+ * @param date $naissance
+ * @param string $mail
+ * @param string $mdp
  * @return void
  */
-function signIn($nom, $prenom, $naissance, $mail, $mdp)
+function signIn($nom, $prenom, $naissance, $mail, $genre, $mdp, $token)
 {
     static $ps = null;
-    $sql = "INSERT INTO Utilisateurs (Nom,Prenom,DateNaissance,Mail,Mdp) VALUE(:NOM,:PRENOM,:NAISSANCE,:MAIL,:MDP)";
+    $sql = "INSERT INTO Utilisateurs (Nom,Prenom,DateNaissance,Mail,Genre,Mdp,Token) VALUE(:NOM,:PRENOM,:NAISSANCE,:MAIL,:GENRE,:MDP,:TOKEN)";
 
     $answer = false;
     try {
         if ($ps == null) {
-            $ps = dbData()->prepare($sql);
+            $ps = dbImc()->prepare($sql);
         }
         $ps->bindParam(':NOM', $nom, PDO::PARAM_STR);
         $ps->bindParam(':PRENOM', $prenom, PDO::PARAM_STR);
         $ps->bindParam(':NAISSANCE', $naissance, PDO::PARAM_STR);
         $ps->bindParam(':MAIL', $mail, PDO::PARAM_STR);
+        $ps->bindParam(':GENRE', $genre, PDO::PARAM_STR);
         $ps->bindParam(':MDP', $mdp, PDO::PARAM_STR);
+        $ps->bindParam(':TOKEN', $token, PDO::PARAM_STR);
         $ps->execute();
 
         $answer = $ps->fetchAll(PDO::FETCH_ASSOC);
@@ -229,7 +232,7 @@ function connect($email, $password)
     $answer = false;
     try {
         if ($ps == null) {
-            $ps = dbData()->prepare($sql);
+            $ps = dbImc()->prepare($sql);
         }
         $ps->bindParam(':EMAIL', $email, PDO::PARAM_STR);
         $ps->execute();
@@ -278,7 +281,7 @@ function ajouterImcData($taille, $poids, $date, $idUtilisateur)
     $answer = false;
     try {
         if ($ps == null) {
-            $ps = dbData()->prepare($sql);
+            $ps = dbImc()->prepare($sql);
         }
         $ps->bindParam(':IDUTILISATEUR', $idUtilisateur, PDO::PARAM_STR);
         $ps->bindParam(':POIDS', $poids, PDO::PARAM_STR);
@@ -302,7 +305,90 @@ function ajouterImcData($taille, $poids, $date, $idUtilisateur)
 function verifierSession()
 {
     if (!$_SESSION["connected"] || !isset($_SESSION["connected"])) {
-        header('Location: index.php');
+        header('Location: connexion.php');
         exit();
     }
+}
+/**
+ * Verifie que l'utilisateur possède bien des données dans la bd
+ *
+ * @param int $idUtilisateur
+ * @return void
+ */
+function verifierData($idUtilisateur)
+{
+    static $ps = null;
+    $sql = "SELECT * FROM Data WHERE idUtilisateur = :IDUTILISATEUR";
+
+    $answer = false;
+    try {
+        if ($ps == null) {
+            $ps = dbImc()->prepare($sql);
+        }
+        $ps->bindParam(':IDUTILISATEUR', $idUtilisateur, PDO::PARAM_STR);
+        $ps->execute();
+
+        $answer = $ps->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        $answer = array();
+        echo $e->getMessage();
+    }
+    return $answer;
+}
+/**
+ * génère un string aléatoire 
+ * (fonction prise sur le site https://www.geeksforgeeks.org/generating-random-string-using-php/) 
+ *
+ * @param int $n -> la taille du string voulue
+ * @return void
+ */
+function generateToken($n)
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomString = '';
+
+    for ($i = 0; $i < $n; $i++) {
+        $index = rand(0, strlen($characters) - 1);
+        $randomString .= $characters[$index];
+    }
+
+    return $randomString;
+}
+/**
+ * récupère le token de l'utilisateur en fonction de son id
+ *
+ * @param int $idUtilisateur
+ * @return void
+ */
+function GetTokenFromUserId($idUtilisateur)
+{
+    static $ps = null;
+    $sql = "SELECT Token FROM Utilisateurs WHERE idUtilisateur = :IDUTILISATEUR";
+
+    $answer = false;
+    try {
+        if ($ps == null) {
+            $ps = dbImc()->prepare($sql);
+        }
+        $ps->bindParam(':IDUTILISATEUR', $idUtilisateur, PDO::PARAM_STR);
+        $ps->execute();
+
+        $answer = $ps->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        $answer = array();
+        echo $e->getMessage();
+    }
+    return $answer;
+}
+
+/**
+ * Ecrit l'imc dans de l'html
+ *
+ * @param float $imc , l'indice de masse corporelle
+ * @param string $lvl , le niveau de titre (Ex.: h1,h2,...)
+ * @return void
+ */
+function imcToHtml($imc, $lvl)
+{
+    echo "<$lvl>Vous avez un imc de : $imc</$lvl>";
 }

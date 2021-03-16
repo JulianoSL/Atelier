@@ -16,31 +16,29 @@
 
 session_start();
 include_once("./fonctions/func.php");
-
-/**
- * le message d'erreur
- */
+if ($_SESSION["connected"]) {
+    header("Location:index.php");
+}
 $erreur = "";
+/**<le message d'erreur */
 
-if (isset($_POST["Connexion"])) {   
-    /**
-     * l'email de l'utilisateur
-     */
+if (isset($_POST["Connexion"])) {
     $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-    /**
-     * le mot de passe de l'utilisateur
-     */
+    /**<l'email de l'utilisateur */
+
     $password = filter_input(INPUT_POST, "mdp", FILTER_SANITIZE_STRING);
+    /**<le mot de passe de l'utilisateur */
     if ($email && $password) {
         if (connect($email, $password)) {
             $_SESSION["idUtilisateur"] = connect($email, $password);
             $_SESSION["connected"] = true;
+            $_SESSION["token"] = GetTokenFromUserId($_SESSION["idUtilisateur"]);
             header('Location: index.php');
             exit();
         } else {
             $erreur = "Email ou mot de passe incorrect !";
         }
-    }  
+    }
 }
 ?>
 <html lang="en">

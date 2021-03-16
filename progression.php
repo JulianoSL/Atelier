@@ -1,20 +1,25 @@
 <?php
-/** Freeder
+
+/** Souza Luz Juliano
  *  -------
- *  @file
- *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
- *  @brief Various functions, not specific and widely used.
- */
-/**
- * Auteur       :   Souza Luz Juliano 
- * Date         :   
- * Description  :  
- * Page         :   
- * Version      :   1.0, JSL
+ *  \file
+ *  \brief     page de progression
+ *  \details   Cette page affiche le suivi de l'imc de l'utilisateur sur un graphique
+ *  \author    Souza Luz Juliano
+ *  \version   1.0
+ *  \date      2021
+ *  \pre       First initialize the system.
+ *  \bug       
+ *  \warning   
+ *  \copyright JSL
  */
 session_start();
 include_once("./fonctions/func.php");
 verifierSession();
+$errorMsg = "";
+if (!verifierData($_SESSION["idUtilisateur"])) {
+  $errorMsg = "Aucune donnée n'a été trouvée ! Veuillez inserer vos données grâce à la page <a href='imc.php'>IMC</a>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,11 +34,16 @@ verifierSession();
 <body>
   <?php include_once("navbar.php"); ?>
   <main>
+    <h1><?= $errorMsg; ?></h1>
     <div id="chart"></div>
   </main>
   <footer>&copy;JSL 2021</footer>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" src="js/graph.js"></script>
+  <?php if (verifierData($_SESSION["idUtilisateur"])) {
+
+  ?>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="js/graph.js"></script>
+  <?php }; ?>
 </body>
 
 </html>

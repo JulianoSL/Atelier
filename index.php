@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <?php
-/** Freeder
+/** Souza Luz Juliano
  *  -------
- *  @file
- *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
- *  @brief Various functions, not specific and widely used.
+ *  \file
+ *  \brief     page principale
+ *  \details   Cette page est la page principale du site
+ *  \author    Souza Luz Juliano
+ *  \version   1.0
+ *  \date      2021
+ *  \pre       First initialize the system.
+ *  \bug       
+ *  \warning   
+ *  \copyright JSL
  */
+require_once("fonctions/func.php");
 session_start();
+verifierSession();
 ?>
 <html lang="en">
 

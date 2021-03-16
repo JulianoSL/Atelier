@@ -1,16 +1,22 @@
 <?php
 
-/** Freeder
+/** Souza Luz Juliano
  *  -------
- *  @file
- *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
- *  @brief Various functions, not specific and widely used.
+ *  \file
+ *  \brief     navbar
+ *  \details   Ce fichier contient la barre de naviguation du site
+ *  \author    Souza Luz Juliano
+ *  \version   1.0
+ *  \date      2021
+ *  \pre       First initialize the system.
+ *  \bug       
+ *  \warning   
+ *  \copyright JSL
  */
 include_once("fonctions/func.php");
-/**
- * récupère la page où se trouve l'utilisateur
- */
+
 $page = basename($_SERVER['PHP_SELF']);
+/**<récupère la page où se trouve l'utilisateur */
 ?>
 <nav>
     <h1 class="categorie">Pages :</h1>

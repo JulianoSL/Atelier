@@ -1,54 +1,60 @@
 <!DOCTYPE html>
 <?php
-/** Freeder
+/** Souza Luz Juliano
  *  -------
- *  @file
- *  @copyright Copyright (c) 2014 Freeder, MIT License, See the LICENSE file for copying permissions.
- *  @brief Various functions, not specific and widely used.
- */
-/**
- * Auteur       :   Souza Luz Juliano 
- * Date         :   
- * Description  :  
- * Page         :   
- * Version      :   1.0, JSL
+ *  \file
+ *  \brief     incription
+ *  \details   Cette page permet à l'utilisateur de s'inscrire
+ *  \author    Souza Luz Juliano
+ *  \version   1.0
+ *  \date      2021
+ *  \pre       First initialize the system.
+ *  \bug       
+ *  \warning   
+ *  \copyright JSL
  */
 session_start();
 include_once("./fonctions/func.php");
-
-$erreur = "";
 if ($_SESSION["connected"]) {
-    //header('Location: index.php');
+    header("Location:index.php");
 }
+$erreur = "";
+/**< le message d'erreur */
+
+$nom = "";
+$prenom = "";
+$naissance = "";
+$genre = "";
+$email = "";
 if (isset($_POST["inscription"])) {
-    /**
-     * le nom de l'utilisateur
-     */
+
     $nom = filter_input(INPUT_POST, "nom", FILTER_SANITIZE_STRING);
-    /**
-     * le prenom de l'utilisateur
-     */
+    /**< le nom de l'utilisateur */
+
     $prenom = filter_input(INPUT_POST, "prenom", FILTER_SANITIZE_STRING);
-    /**
-     * la date de naissance de l'utilisateur
-     */
+    /**< le prenom de l'utilisateur */
+
     $naissance = filter_input(INPUT_POST, "naissance", FILTER_SANITIZE_STRING);
-    /**
-     * l'email de l'utilisateur
-     */
+    /**< la date de naissance de l'utilisateur */
+
+    $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_STRING);
+    /**< le genre de l'utilisateur */
+
     $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-    /**
-     * le mot de passe de l'utilisateur
-     */
+    /**< l'email de l'utilisateur */
+
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
+    /**< le mot de passe de l'utilisateur */
 
     if ($nom && $prenom && $naissance && $email && $password) {
-        /**
-         * hachage du mot de passe
-         */
-        $password = password_hash($password,PASSWORD_BCRYPT);
-        signIn($nom, $prenom, $naissance, $email, $password);
+
+        $token = generateToken(255);
+        /**< génération du token de l'utilisateur */
+        $password = password_hash($password, PASSWORD_BCRYPT);
+        /**< hachage du mot de passe */
+        signIn($nom, $prenom, $naissance, $email, $genre, $password, $token);
         $_SESSION["idUtilisateur"] = connect($email, $password);
+        $_SESSION["token"] = $token;
         $_SESSION["connected"] = true;
     }
 }
@@ -108,21 +114,17 @@ if (isset($_POST["inscription"])) {
             <img class="mb-4" src="img/logo.svg" alt="" width="72" height="57">
             <h1 class="h3 mb-3 fw-normal">Formulaire d'inscription</h1>
 
-            <input type="text" class="form-control" placeholder="Nom" name="nom" required autofocus>
-            <input type="text" class="form-control" placeholder="Prenom" name="prenom" required>
-            <input type="email" class="form-control" placeholder="Adresse Email" name="email" required>
+            <input type="text" class="form-control" placeholder="Nom" name="nom" value="<?= $nom; ?>" required autofocus>
+            <input type="text" class="form-control" placeholder="Prenom" name="prenom" value="<?= $prenom; ?>" required>
+            <input type="email" class="form-control" placeholder="Adresse Email" name="email" value="<?= $email; ?>" required>
             <label for="naissance">Date de Naissance</label>
-            <input type="date" id="naissance" class="form-control" name="naissance" required>
-
-
+            <input type="date" id="naissance" class="form-control" name="naissance" value="<?= $naissance; ?>" required>
+            <label for="Homme">Homme</label>
+            <input type="radio" id="Homme" name="genre" value="Homme" checked><br>
+            <label for="Femme">Femme</label>
+            <input type="radio" id="Femme" name="genre" value="Femme">
             <input type="password" class="form-control" placeholder="Mot de passe" name="password" required>
-
-            <input type="password" class="form-control" placeholder="Confirmer le mot de passe" name="confirmMdp" required>
-            <!-- <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
-            </div> -->
+            <input type="password" class="form-control" placeholder="Confirmer le mot de passe" name="confirmMdp" required>            
             <button class="w-100 btn btn-lg btn-primary" type="submit" name="inscription">S'inscrire</button>
             <p><?= $erreur ?></p>
             <p class="mt-5 mb-3 text-muted">&copy;JSL 2021</p>

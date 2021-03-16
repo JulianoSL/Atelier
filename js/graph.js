@@ -58,16 +58,19 @@ function recherchePoints() {
     if (record) {
         record.forEach(function (value) {
             //calculer l'imc
-            imc = value.Poids / Math.pow(value.Taille / 100, 2);
+            imc = value.Poids / Math.pow(value.Taille, 2);
             //arrondir a 1 décimale
             imc = Math.round(imc * 10) / 10;
             tab.push([value.Date, SURPOIDS, MAIGREUR, IDEAL, imc]);
+            if (record.length == 1) {
+                tab.push([value.Date, SURPOIDS, MAIGREUR, IDEAL, imc]);
+            }
         })
     }
 }
 
 /**
- * dessine le graphique
+ * dessine le graphique (viens de googleChart)
  *
  * @return void
  */
@@ -75,7 +78,7 @@ function drawChart() {
     tab.push(['Year', 'Surpoids', 'Maigreur', "IMC idéal", "Votre IMC"]);
     recherchePoints();
     data = google.visualization.arrayToDataTable(tab);
-      
+
     options = {
         title: 'Graphique IMC',
         curveType: 'function',

@@ -14,7 +14,16 @@
  *  \copyright JSL
  */
 session_start();
-require_once("fonctions/func.php");
+require_once("./fonctions/func.php");
+verifierSession();
+$tokenUser = GetTokenFromUserId($_SESSION["idUtilisateur"]);
+if ($tokenUser == $_SESSION["token"]) {
+
+    echo dataToJson(selectAllByDate($_SESSION["idUtilisateur"]));
+} else {
+    echo "Vous n'êtes pas autorisé à visionner ces données !";
+}
+
 // require_once("fonctions/constantes.inc.php");
 // $token = filter_input(INPUT_GET, "token", FILTER_SANITIZE_STRING);
 // if ($token == TOKEN) {
@@ -22,5 +31,3 @@ require_once("fonctions/func.php");
 // } else {
 //     header("Location:index.php");
 // }
-echo dataToJson(selectAllByDate($_SESSION["idUtilisateur"]));
-
