@@ -123,13 +123,31 @@ if (isset($_POST["inscription"])) {
             <input type="radio" id="Homme" name="genre" value="Homme" checked><br>
             <label for="Femme">Femme</label>
             <input type="radio" id="Femme" name="genre" value="Femme">
-            <input type="password" class="form-control" placeholder="Mot de passe" name="password" required>
-            <input type="password" class="form-control" placeholder="Confirmer le mot de passe" name="confirmMdp" required>            
+            <input type="password" class="form-control" placeholder="Mot de passe" name="password" required id="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Doit contenir au moins 1 nombre, 1 majuscule, et au moins 8 charactères !" oninput="CheckPassword()">
+            <input type="password" class="form-control" placeholder="Confirmer le mot de passe" name="confirmMdp" required oninput="CheckPassword()">
             <button class="w-100 btn btn-lg btn-primary" type="submit" name="inscription">S'inscrire</button>
             <p><?= $erreur ?></p>
             <p class="mt-5 mb-3 text-muted">&copy;JSL 2021</p>
         </form>
     </main>
 </body>
+<script>
+    function CheckPassword() {
+        var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        if (document.getElementById("Password").value.match(decimal)) {
+            document.getElementById("Password").classList.remove("is-invalid");
+            document.getElementById("Password").classList.add("is-valid");
+
+            document.getElementById("PasswordConfirm").classList.remove("is-invalid");
+            document.getElementById("PasswordConfirm").classList.add("is-valid");
+        } else {
+            document.getElementById("Password").classList.remove("is-valid");
+            document.getElementById("Password").classList.add("is-invalid");
+
+            document.getElementById("PasswordConfirm").classList.remove("is-valid");
+            document.getElementById("PasswordConfirm").classList.add("is-invalid");
+        }
+    }
+</script>
 
 </html>
