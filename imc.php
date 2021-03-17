@@ -43,7 +43,7 @@ if (isset($_POST["Calculer"])) {
   $check = filter_input(INPUT_POST, "Data");
   /**< si on a coché le bouton pour enregistrer l'imc */
   if ($taille && $poids && $date) {
-    $calcul = calculerImc($taille, $poids); 
+    $calcul = calculerImc($taille, $poids);
     if ($check) {
       ajouterImcData($taille, $poids, $date, $_SESSION["idUtilisateur"]);
       header("Location:progression.php");

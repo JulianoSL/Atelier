@@ -28,7 +28,7 @@ if (isset($_POST["Connexion"])) {
 
     $password = filter_input(INPUT_POST, "mdp", FILTER_SANITIZE_STRING);
     /**<le mot de passe de l'utilisateur */
-    if ($email && $password) {
+    if ($email && $password) {        
         if (connect($email, $password)) {
             $_SESSION["idUtilisateur"] = connect($email, $password);
             $_SESSION["connected"] = true;

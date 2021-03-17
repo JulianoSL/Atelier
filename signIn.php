@@ -54,9 +54,9 @@ if (isset($_POST["inscription"])) {
         if ($password == $confirmPwd) {
             $token = generateToken(255);
             /**< génération du token de l'utilisateur */
-            $password = password_hash($password, PASSWORD_BCRYPT);
+            $passwordHash = password_hash($password, PASSWORD_BCRYPT);
             /**< hachage du mot de passe */
-            if (signIn($nom, $prenom, $naissance, $email, $genre, $password, $token)) {
+            if (signIn($nom, $prenom, $naissance, $email, $genre, $passwordHash, $token)) {
                 if ($_SESSION["idUtilisateur"] = connect($email, $password)) {
                     $_SESSION["token"] = $token;
                     $_SESSION["connected"] = true;
@@ -66,7 +66,7 @@ if (isset($_POST["inscription"])) {
                 $msgErreur = "Inscription impossible, adresse email déjà utilisée ! Essayez de vous <a href='connexion.php'>connecter</a>.";
             }
         } else {
-            $msgErreur = "Le mot de passe de correspond pas dans les deux champs !";
+            $msgErreur = "Le mot de passe ne correspond pas dans les deux champs !";
         }
     }
 }
