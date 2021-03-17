@@ -18,7 +18,7 @@ include_once("./fonctions/func.php");
 if ($_SESSION["connected"]) {
     header("Location:index.php");
 }
-$erreur = "";
+$msgErreur = "";
 /**< le message d'erreur */
 
 $nom = "";
@@ -46,16 +46,28 @@ if (isset($_POST["inscription"])) {
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
     /**< le mot de passe de l'utilisateur */
 
-    if ($nom && $prenom && $naissance && $email && $password) {
+    $confirmPwd = filter_input(INPUT_POST, "confirmPwd", FILTER_SANITIZE_STRING);
+    /**< la confirmation du mot de passe */
 
-        $token = generateToken(255);
-        /**< génération du token de l'utilisateur */
-        $password = password_hash($password, PASSWORD_BCRYPT);
-        /**< hachage du mot de passe */
-        signIn($nom, $prenom, $naissance, $email, $genre, $password, $token);
-        $_SESSION["idUtilisateur"] = connect($email, $password);
-        $_SESSION["token"] = $token;
-        $_SESSION["connected"] = true;
+
+    if ($nom && $prenom && $naissance && $email && $password && $confirmPwd) {
+        if ($password == $confirmPwd) {
+            $token = generateToken(255);
+            /**< génération du token de l'utilisateur */
+            $password = password_hash($password, PASSWORD_BCRYPT);
+            /**< hachage du mot de passe */
+            if (signIn($nom, $prenom, $naissance, $email, $genre, $password, $token)) {
+                if ($_SESSION["idUtilisateur"] = connect($email, $password)) {
+                    $_SESSION["token"] = $token;
+                    $_SESSION["connected"] = true;
+                    header("Location:index.php");
+                }
+            } else {
+                $msgErreur = "Inscription impossible, adresse email déjà utilisée ! Essayez de vous <a href='connexion.php'>connecter</a>.";
+            }
+        } else {
+            $msgErreur = "Le mot de passe de correspond pas dans les deux champs !";
+        }
     }
 }
 ?>
@@ -123,29 +135,23 @@ if (isset($_POST["inscription"])) {
             <input type="radio" id="Homme" name="genre" value="Homme" checked><br>
             <label for="Femme">Femme</label>
             <input type="radio" id="Femme" name="genre" value="Femme">
-            <input type="password" class="form-control" placeholder="Mot de passe" name="password" required id="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Doit contenir au moins 1 nombre, 1 majuscule, et au moins 8 charactères !" oninput="CheckPassword()">
-            <input type="password" class="form-control" placeholder="Confirmer le mot de passe" name="confirmMdp" required oninput="CheckPassword()">
+            <input type="password" class="form-control" placeholder="Mot de passe" name="password" required id="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Doit contenir au moins 1 nombre, 1 majuscule, et au moins 8 charactères !" oninput="CheckPassword(this)">
+            <input type="password" class="form-control" placeholder="Confirmer le mot de passe" name="confirmPwd" required id="PasswordConfirm" oninput="CheckPassword(this)">
             <button class="w-100 btn btn-lg btn-primary" type="submit" name="inscription">S'inscrire</button>
-            <p><?= $erreur ?></p>
+            <p><?= $msgErreur ?></p>
             <p class="mt-5 mb-3 text-muted">&copy;JSL 2021</p>
         </form>
     </main>
 </body>
 <script>
-    function CheckPassword() {
+    function CheckPassword(input) {
         var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-        if (document.getElementById("Password").value.match(decimal)) {
-            document.getElementById("Password").classList.remove("is-invalid");
-            document.getElementById("Password").classList.add("is-valid");
-
-            document.getElementById("PasswordConfirm").classList.remove("is-invalid");
-            document.getElementById("PasswordConfirm").classList.add("is-valid");
+        if (input.value.match(decimal)) {
+            input.classList.remove("is-invalid");
+            input.classList.add("is-valid");
         } else {
-            document.getElementById("Password").classList.remove("is-valid");
-            document.getElementById("Password").classList.add("is-invalid");
-
-            document.getElementById("PasswordConfirm").classList.remove("is-valid");
-            document.getElementById("PasswordConfirm").classList.add("is-invalid");
+            input.classList.remove("is-valid");
+            input.classList.add("is-invalid");
         }
     }
 </script>

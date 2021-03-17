@@ -119,9 +119,8 @@ function Modifier($imc, $date, $row)
         $ps->bindParam(':IMC', $imc, PDO::PARAM_STR);
         $ps->bindParam(':DATE', $date, PDO::PARAM_STR);
         $ps->bindParam(':ID', $row, PDO::PARAM_STR);
-        $ps->execute();
 
-        $answer = $ps->fetchAll(PDO::FETCH_ASSOC);
+        $answer = $ps->execute();
     } catch (Exception $e) {
         $answer = array();
         echo $e->getMessage();
@@ -145,10 +144,9 @@ function Supprimer($row)
         if ($ps == null) {
             $ps = dbImc()->prepare($sql);
         }
-        $ps->bindParam(':ID', $row, PDO::PARAM_STR);
-        $ps->execute();
+        $ps->bindParam(':ID', $row, PDO::PARAM_INT);
 
-        $answer = $ps->fetchAll(PDO::FETCH_ASSOC);
+        $answer = $ps->execute();
     } catch (Exception $e) {
         $answer = array();
         echo $e->getMessage();
@@ -208,9 +206,8 @@ function signIn($nom, $prenom, $naissance, $mail, $genre, $mdp, $token)
         $ps->bindParam(':GENRE', $genre, PDO::PARAM_STR);
         $ps->bindParam(':MDP', $mdp, PDO::PARAM_STR);
         $ps->bindParam(':TOKEN', $token, PDO::PARAM_STR);
-        $ps->execute();
 
-        $answer = $ps->fetchAll(PDO::FETCH_ASSOC);
+        $answer = $ps->execute();
     } catch (Exception $e) {
         $answer = array();
         echo $e->getMessage();
@@ -287,9 +284,8 @@ function ajouterImcData($taille, $poids, $date, $idUtilisateur)
         $ps->bindParam(':POIDS', $poids, PDO::PARAM_STR);
         $ps->bindParam(':TAILLE', $taille, PDO::PARAM_STR);
         $ps->bindParam(':DATE', $date, PDO::PARAM_STR);
-        $ps->execute();
 
-        $answer = $ps->fetchAll(PDO::FETCH_ASSOC);
+        $answer = $ps->execute();
     } catch (Exception $e) {
         $answer = array();
         echo $e->getMessage();
