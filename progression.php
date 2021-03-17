@@ -13,11 +13,11 @@
  *  \warning   
  *  \copyright JSL
  */
-session_start();
+
 include_once("./fonctions/func.php");
 verifierSession();
 $errorMsg = "";
-if (!verifierData($_SESSION["idUtilisateur"])) {
+if (!verifierData(GetSession("idUtilisateur"))) {
   $errorMsg = "Aucune donnée n'a été trouvée ! Veuillez inserer vos données grâce à la page <a href='imc.php'>IMC</a>";
 }
 ?>
@@ -38,7 +38,7 @@ if (!verifierData($_SESSION["idUtilisateur"])) {
     <div id="chart"></div>
   </main>
   <footer>&copy;JSL 2021</footer>
-  <?php if (verifierData($_SESSION["idUtilisateur"])) {
+  <?php if (verifierData(GetSession("idUtilisateur"))) {
 
   ?>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

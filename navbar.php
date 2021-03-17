@@ -23,7 +23,7 @@ $page = basename($_SERVER['PHP_SELF']);
     <h1>
         <a href="index.php" class='<?= isOnPage($page, "index.php"); ?>'>Menu</a>
     </h1>
-    <?php if ($_SESSION["connected"]) {
+    <?php if (GetSession("connected")) {
 
     ?>
         <h1>

@@ -13,13 +13,13 @@
  *  \warning   
  *  \copyright JSL
  */
-session_start();
+
 require_once("./fonctions/func.php");
 verifierSession();
-$tokenUser = GetTokenFromUserId($_SESSION["idUtilisateur"]);
-if ($tokenUser == $_SESSION["token"]) {
+$tokenUser = GetTokenFromUserId(GetSession("idUtilisateur"));
+if ($tokenUser == GetSession("token")) {
 
-    echo dataToJson(selectAllByDate($_SESSION["idUtilisateur"]));
+    echo dataToJson(selectAllByDate(GetSession("idUtilisateur")));
 } else {
     echo "Vous n'êtes pas autorisé à visionner ces données !";
 }

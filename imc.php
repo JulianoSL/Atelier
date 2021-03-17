@@ -13,7 +13,7 @@
  *  \warning   
  *  \copyright JSL
  */
-session_start();
+
 include_once("./fonctions/func.php");
 verifierSession();
 
@@ -45,7 +45,7 @@ if (isset($_POST["Calculer"])) {
   if ($taille && $poids && $date) {
     $calcul = calculerImc($taille, $poids);
     if ($check) {
-      ajouterImcData($taille, $poids, $date, $_SESSION["idUtilisateur"]);
+      ajouterImcData($taille, $poids, $date, GetSession("idUtilisateur"));
       header("Location:progression.php");
     }
   }

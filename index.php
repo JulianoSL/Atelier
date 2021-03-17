@@ -13,8 +13,8 @@
  *  \warning   
  *  \copyright JSL
  */
+
 require_once("fonctions/func.php");
-session_start();
 verifierSession();
 ?>
 <html lang="en">

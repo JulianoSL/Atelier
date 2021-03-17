@@ -13,9 +13,9 @@
  *  \warning   
  *  \copyright JSL
  */
-session_start();
+
 include_once("./fonctions/func.php");
-if ($_SESSION["connected"]) {
+if (GetSession("connected")) {
     header("Location:index.php");
 }
 $msgErreur = "";
@@ -57,9 +57,9 @@ if (isset($_POST["inscription"])) {
             $passwordHash = password_hash($password, PASSWORD_BCRYPT);
             /**< hachage du mot de passe */
             if (signIn($nom, $prenom, $naissance, $email, $genre, $passwordHash, $token)) {
-                if ($_SESSION["idUtilisateur"] = connect($email, $password)) {
-                    $_SESSION["token"] = $token;
-                    $_SESSION["connected"] = true;
+                if (GetSession(SetSession("idUtilisateur", connect($email, $password)))) {
+                    SetSession("token", $token);
+                    SetSession("connected", true);
                     header("Location:index.php");
                 }
             } else {

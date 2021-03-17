@@ -14,9 +14,8 @@
  *  \copyright JSL
  */
 
-session_start();
 include_once("./fonctions/func.php");
-if ($_SESSION["connected"]) {
+if (GetSession("connected")) {
     header("Location:index.php");
 }
 $erreur = "";
@@ -28,11 +27,11 @@ if (isset($_POST["Connexion"])) {
 
     $password = filter_input(INPUT_POST, "mdp", FILTER_SANITIZE_STRING);
     /**<le mot de passe de l'utilisateur */
-    if ($email && $password) {        
+    if ($email && $password) {
         if (connect($email, $password)) {
-            $_SESSION["idUtilisateur"] = connect($email, $password);
-            $_SESSION["connected"] = true;
-            $_SESSION["token"] = GetTokenFromUserId($_SESSION["idUtilisateur"]);
+            SetSession("idUtilisateur", connect($email, $password));
+            SetSession("connected", true);
+            SetSession("token", GetTokenFromUserId(GetSession("idUtilisateur")));
             header('Location: index.php');
             exit();
         } else {

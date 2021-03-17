@@ -13,6 +13,7 @@
  *  \warning   
  *  \copyright JSL
  */
+session_start();
 require("constantes.inc.php");
 
 /**
@@ -387,4 +388,25 @@ function GetTokenFromUserId($idUtilisateur)
 function imcToHtml($imc, $lvl)
 {
     echo "<$lvl>Vous avez un imc de : $imc</$lvl>";
+}
+/**
+ * récupère la variable de session
+ *
+ * @param string $param , variable de session
+ * @return void
+ */
+function GetSession($param)
+{
+    return $_SESSION[$param];
+}
+/**
+ * défini la valeur d'une variable de session
+ *
+ * @param string $param , la variable de session
+ * @param type $value , la valeur
+ * @return void
+ */
+function SetSession($param, $value)
+{
+    $_SESSION[$param] = $value;
 }
