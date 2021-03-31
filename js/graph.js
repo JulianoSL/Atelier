@@ -11,12 +11,15 @@
  *  \warning   
  *  \copyright JSL
  */
+// tout les seuils sont set à leurs valeurs max
+const OBESITE = 35;/**<constante qui définit le seuil d'obésité */
 
-const SURPOIDS = 25;/**<constante qui définit le seuil de surpoids */
+const SURPOIDS = 30;/**<constante qui définit le seuil de surpoids */
 
 const MAIGREUR = 18.5;/**< constante qui définit le seuil de maigreur*/
 
-const IDEAL = 21.75; /**< constante qui définit le seuil idéal*/
+const NORMAL = 25;/**< constante qui définit le seuil normal*/
+
 
 var gChart;/**<la variable du graphique */
 
@@ -61,9 +64,9 @@ function recherchePoints() {
             imc = value.Poids / Math.pow(value.Taille, 2);
             //arrondir a 1 décimale
             imc = Math.round(imc * 10) / 10;
-            tab.push([value.Date, SURPOIDS, MAIGREUR, IDEAL, imc]);
+            tab.push([value.Date, OBESITE, SURPOIDS, NORMAL, imc, MAIGREUR]);
             if (record.length == 1) {
-                tab.push([value.Date, SURPOIDS, MAIGREUR, IDEAL, imc]);
+                tab.push([value.Date, OBESITE, SURPOIDS, NORMAL, imc, MAIGREUR]);
             }
         })
     }
@@ -75,7 +78,7 @@ function recherchePoints() {
  * @return void
  */
 function drawChart() {
-    tab.push(['Year', 'Surpoids', 'Maigreur', "IMC idéal", "Votre IMC"]);
+    tab.push(['Year', 'Obésité', 'Surpoids', 'Normal', 'Votre IMC', "Maigreur"]);
     recherchePoints();
     data = google.visualization.arrayToDataTable(tab);
 
@@ -93,7 +96,9 @@ function drawChart() {
             minValue: 16
         },
         backgroundColor: "#FFFAFA",
-        colors: ['#fc3819', "#0088ff", "#33FF58", "#000000"],
+        // obésité , surpoids, normal , imc,maigreur
+        colors: ['#ffbaba', '#fefdb7', '#bdffbd', "#396937", "#fee5b9"],
+        areaOpacity: 0.8,
     };
 
     // var chart = new google.visualization.LineChart(document.getElementById('chart'));
@@ -129,7 +134,12 @@ window.onresize = resize;
  */
 function modifier() {
     if (enabled) {
+        document.getElementById("btnSupprimer").onclick = popUpmodifier();
         window.location = "modifier.php?row=" + (row);
+    }
+    else
+    {
+        document.getElementById("btnSupprimer").onclick = "";
     }
 }
 

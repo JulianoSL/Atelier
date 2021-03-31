@@ -144,12 +144,18 @@ if (isset($_POST["inscription"])) {
     </main>
 </body>
 <script>
+// vérifie que la value de l'input passé en paramètre est conforme au regex ci-dessous
     function CheckPassword(input) {
+        // regex tiré du site (https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a)
+        // ce regex vérifie qu'il y a au moins 1 majuscule, 1 minuscule, et 8 caractères
         var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        // est conforme
         if (input.value.match(decimal)) {
+            // mise à jour des class de l'input pour qu'il soit "vert"
             input.classList.remove("is-invalid");
             input.classList.add("is-valid");
         } else {
+            // mise à jour des class de l'input pour qu'il soit "rouge"
             input.classList.remove("is-valid");
             input.classList.add("is-invalid");
         }
