@@ -225,7 +225,7 @@ function signIn($nom, $prenom, $naissance, $mail, $genre, $mdp, $token)
 function connect($email, $password)
 {
     static $ps = null;
-    $sql = 'SELECT `Mdp`,`idUtilisateurs` FROM Utilisateurs WHERE `Mail` LIKE :EMAIL';
+    $sql = 'SELECT `Mdp`,`idUtilisateur` FROM Utilisateurs WHERE `Mail` LIKE :EMAIL';
 
     $answer = false;
     try {
@@ -239,7 +239,7 @@ function connect($email, $password)
         if (count($answer) == 1) {
 
             if (password_verify($password, $answer[0]["Mdp"])) {
-                return $answer[0]["idUtilisateurs"];
+                return $answer[0]["idUtilisateur"];
             } else {
                 return false;
             }
@@ -281,7 +281,7 @@ function ajouterImcData($taille, $poids, $date, $idUtilisateur)
         if ($ps == null) {
             $ps = dbImc()->prepare($sql);
         }
-        $ps->bindParam(':IDUTILISATEUR', $idUtilisateur, PDO::PARAM_STR);
+        $ps->bindParam(':IDUTILISATEUR', $idUtilisateur, PDO::PARAM_INT);
         $ps->bindParam(':POIDS', $poids, PDO::PARAM_STR);
         $ps->bindParam(':TAILLE', $taille, PDO::PARAM_STR);
         $ps->bindParam(':DATE', $date, PDO::PARAM_STR);

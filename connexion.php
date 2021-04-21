@@ -15,6 +15,9 @@
  */
 
 include_once("./fonctions/func.php");
+if (!isset($_SESSION["connected"])) {
+    $_SESSION["connected"] = false;
+}
 if (GetSession("connected")) {
     header("Location:index.php");
 }

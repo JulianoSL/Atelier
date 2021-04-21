@@ -106,17 +106,16 @@ function drawChart() {
     gChart.draw(data, options);
     google.visualization.events.addListener(gChart, 'select', function () {
         //recupère l'élement selectionné dans le graphique 
-        itemSelected = gChart.getSelection()[0]
-
-        row = itemSelected["row"];
+        itemSelected = gChart.getSelection()[0];
+        // row = itemSelected["row"];
         //
         // console.log(d);
-        col = itemSelected["column"];
-        if (col == 4) {
-            enabled = true;
-        } else {
-            enabled = false;
-        }
+        // col = itemSelected["column"];
+        // if (col == 4) {
+        //     enabled = true;
+        // } else {
+        //     enabled = false;
+        // }
     });
 }
 function resize() {
@@ -137,8 +136,7 @@ function modifier() {
         document.getElementById("btnSupprimer").onclick = popUpmodifier();
         window.location = "modifier.php?row=" + (row);
     }
-    else
-    {
+    else {
         document.getElementById("btnSupprimer").onclick = "";
     }
 }
@@ -151,5 +149,12 @@ function modifier() {
 function supprimer() {
     if (enabled) {
         window.location = "supprimer.php?row=" + (row);
+    }
+}
+function getPoint() {
+    col = itemSelected["column"]
+    row = itemSelected["row"]
+    if (col == 4) {
+        return row;
     }
 }

@@ -15,6 +15,9 @@
  */
 
 include_once("./fonctions/func.php");
+if (!isset($_SESSION["connected"])) {
+    $_SESSION["connected"] = false;
+}
 if (GetSession("connected")) {
     header("Location:index.php");
 }
@@ -57,7 +60,8 @@ if (isset($_POST["inscription"])) {
             $passwordHash = password_hash($password, PASSWORD_BCRYPT);
             /**< hachage du mot de passe */
             if (signIn($nom, $prenom, $naissance, $email, $genre, $passwordHash, $token)) {
-                if (GetSession(SetSession("idUtilisateur", connect($email, $password)))) {
+                SetSession("idUtilisateur", connect($email, $password));
+                if (GetSession("idUtilisateur")) {
                     SetSession("token", $token);
                     SetSession("connected", true);
                     header("Location:index.php");
@@ -144,7 +148,7 @@ if (isset($_POST["inscription"])) {
     </main>
 </body>
 <script>
-// vérifie que la value de l'input passé en paramètre est conforme au regex ci-dessous
+    // vérifie que la value de l'input passé en paramètre est conforme au regex ci-dessous
     function CheckPassword(input) {
         // regex tiré du site (https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a)
         // ce regex vérifie qu'il y a au moins 1 majuscule, 1 minuscule, et 8 caractères

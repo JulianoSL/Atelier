@@ -16,9 +16,14 @@
 
 include_once("./fonctions/func.php");
 verifierSession();
-$errorMsg = "";
+$errorMsg = "";/**<le message d'erreur */
+$taille = "";/**<la taille de l'utilisateur */
+$poids = "";/**<le poids de l'utilisateur */
+$date = "";/**<la date qui correspond au poids et la taille de l'utilisateur */
+$verif = false;
 if (!verifierData(GetSession("idUtilisateur"))) {
   $errorMsg = "Aucune donnée n'a été trouvée ! Veuillez inserer vos données grâce à la page <a href='imc.php'>IMC</a>";
+  $verif = true;
 }
 ?>
 <!DOCTYPE html>
@@ -36,12 +41,16 @@ if (!verifierData(GetSession("idUtilisateur"))) {
   <main>
     <h1><?= $errorMsg; ?></h1>
     <div id="chart"></div>
-    <div class="form-button">
-      <button class="supprimer" name="supprimer" onclick="popUpsupprimer()" id="btnSupprimer">Supprimer</button>
-      <button class="modifier" name="modifier" onclick="popUpmodifier()" id="btnModifier">Modifier</button>
-    </div>
+    <?php if (!$verif) {
 
+    ?>
+      <div class="form-button">
+        <button class="supprimer" name="supprimer" onclick="popUpsupprimer()" id="btnSupprimer">Supprimer</button>
+        <button class="modifier" name="modifier" onclick="popUpmodifier()" id="btnModifier">Modifier</button>
+      </div>
+    <?php } ?>
   </main>
+
   <div class="div-grise" onclick="fermerPopUp()" id="fenetre-grise"></div>
   <div class="popup" id="divModifier">
     <form action="" method="post">
@@ -76,9 +85,10 @@ if (!verifierData(GetSession("idUtilisateur"))) {
     </form>
 
 
+
   </div>
   <footer>&copy;JSL 2021</footer>
-  <?php if (verifierData(GetSession("idUtilisateur"))) { ?>
+  <?php if (!$verif) { ?>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="js/graph.js"></script>
   <?php }; ?>
