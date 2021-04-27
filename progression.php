@@ -9,7 +9,7 @@
  *  \version   1.0
  *  \date      2021
  *  \pre       First initialize the system.
- *  \bug       
+ *  \bug       Problème lors de certains refresh de page
  *  \warning   
  *  \copyright JSL
  */

@@ -44,13 +44,14 @@ var tab = [];/**<le tableau contenant les données du graphiques */
 
 var options;/**<les options du graphique */
 
-var record;/**<contient les données de la BD */
+var record = [];/**<contient les données de la BD */
 
 
 fetch('http://127.0.0.1/Doc/Documentation/data.php')
-    .then(response => response.text())
+    .then(response => response.text(console.log(response)))
     .then((data) => {
         record = JSON.parse(data);
+        console.log(record);
     })
 
 google.charts.load('current', {
@@ -62,12 +63,14 @@ google.charts.setOnLoadCallback(drawChart);
  */
 function recherchePoints() {
     if (record) {
+        // tab = [];
         record.forEach(function (value) {
             //calculer l'imc
             imc = value.Poids / Math.pow(value.Taille, 2);
             //arrondir a 1 décimale
             imc = Math.round(imc * 10) / 10;
             tab.push([value.Date, OBESITE, SURPOIDS, NORMAL, imc, MAIGREUR]);
+            //ajout d'une 2ème ligne si il n'y a qu'un seul point, purement esthetique
             if (record.length == 1) {
                 tab.push([value.Date, OBESITE, SURPOIDS, NORMAL, imc, MAIGREUR]);
             }
@@ -83,6 +86,7 @@ function recherchePoints() {
 function drawChart() {
     tab.push(['Year', 'Obésité', 'Surpoids', 'Normal', 'Votre IMC', "Maigreur"]);
     recherchePoints();
+    console.log(tab);
     data = google.visualization.arrayToDataTable(tab);
 
     options = {
