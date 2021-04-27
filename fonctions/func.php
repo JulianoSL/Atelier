@@ -102,24 +102,26 @@ function afficherModif($row)
 /**
  * fonction pour modifier un element
  *
- * @param int $imc
- * @param date $date
- * @param int $row
- * @return array string
+ * @param double $taille
+ * @param double $poids
+ * @param string $date
+ * @param int $idData
+ * @return void
  */
-function Modifier($imc, $date, $row)
+function Modifier($taille, $poids, $date, $idData)
 {
     static $ps = null;
-    $sql = "UPDATE `imc` SET `imc` = :IMC, `date` = :DATE WHERE `idImc` = :ID";
+    $sql = "UPDATE `Data` SET `Poids` = :POIDS, `Date` = :DATE,`Taille`=:TAILLE WHERE `idData` = :ID_DATA";
 
     $answer = false;
     try {
         if ($ps == null) {
             $ps = dbImc()->prepare($sql);
         }
-        $ps->bindParam(':IMC', $imc, PDO::PARAM_STR);
+        $ps->bindParam(':POIDS', $poids, PDO::PARAM_STR);
+        $ps->bindParam(':TAILLE', $taille, PDO::PARAM_STR);
         $ps->bindParam(':DATE', $date, PDO::PARAM_STR);
-        $ps->bindParam(':ID', $row, PDO::PARAM_STR);
+        $ps->bindParam(':ID_DATA', $idData, PDO::PARAM_INT);
 
         $answer = $ps->execute();
     } catch (Exception $e) {
@@ -132,20 +134,20 @@ function Modifier($imc, $date, $row)
 /**
  * fonction pour supprimer un element
  *
- * @param int $row
+ * @param int $idData
  * @return array string
  */
-function Supprimer($row)
+function Supprimer($idData)
 {
     static $ps = null;
-    $sql = "DELETE FROM Data WHERE idImc = :ID";
+    $sql = "DELETE FROM Data WHERE idData = :ID_DATA";
 
     $answer = false;
     try {
         if ($ps == null) {
             $ps = dbImc()->prepare($sql);
         }
-        $ps->bindParam(':ID', $row, PDO::PARAM_INT);
+        $ps->bindParam(':ID_DATA', $idData, PDO::PARAM_INT);
 
         $answer = $ps->execute();
     } catch (Exception $e) {

@@ -11,6 +11,7 @@
  *  \warning   
  *  \copyright JSL
  */
+
 // tout les seuils sont set à leurs valeurs max
 const OBESITE = 35;/**<constante qui définit le seuil d'obésité */
 
@@ -42,6 +43,8 @@ var date;/**<la date */
 var tab = [];/**<le tableau contenant les données du graphiques */
 
 var options;/**<les options du graphique */
+
+var record;/**<contient les données de la BD */
 
 
 fetch('http://127.0.0.1/Doc/Documentation/data.php')
@@ -107,15 +110,30 @@ function drawChart() {
     google.visualization.events.addListener(gChart, 'select', function () {
         //recupère l'élement selectionné dans le graphique 
         itemSelected = gChart.getSelection()[0];
-        // row = itemSelected["row"];
-        //
-        // console.log(d);
-        // col = itemSelected["column"];
-        // if (col == 4) {
-        //     enabled = true;
-        // } else {
-        //     enabled = false;
-        // }
+        row = itemSelected["row"];
+
+        col = itemSelected["column"];
+        if (col == 4) {
+            document.getElementById("btnSupprimer").style = "visibility:visible";
+            document.getElementById("btnModifier").style = "visibility:visible";
+
+            // remplir la popup supprimer
+            document.getElementById("RecupIdSuppr").value = record[row].idData;
+            document.getElementById("SupprPoids").innerHTML = "Poids : " + record[row].Poids;
+            document.getElementById("SupprTaille").innerHTML = "Taille : " + record[row].Taille;
+            document.getElementById("SupprDate").innerHTML = "Date : " + record[row].Date;
+
+            //remplir la popup modifier
+            document.getElementById("RecupIdModif").value = record[row].idData;
+            document.getElementById("Poids").value = record[row].Poids;
+            document.getElementById("Taille").value = record[row].Taille;
+            document.getElementById("Date").value = record[row].Date;
+
+
+        } else {
+            document.getElementById("btnSupprimer").style = "visibility:hidden";
+            document.getElementById("btnModifier").style = "visibility:hidden";
+        }
     });
 }
 function resize() {
@@ -131,30 +149,34 @@ window.onresize = resize;
  *
  * @return void
  */
-function modifier() {
-    if (enabled) {
-        document.getElementById("btnSupprimer").onclick = popUpmodifier();
-        window.location = "modifier.php?row=" + (row);
-    }
-    else {
-        document.getElementById("btnSupprimer").onclick = "";
-    }
-}
+// function modifier() {
+//     if (enabled) {
+//         document.getElementById("btnSupprimer").onclick = popUpmodifier();
+//         window.location = "modifier.php?row=" + (row);
+//     }
+//     else {
+//         document.getElementById("btnSupprimer").onclick = "";
+//     }
+// }
 
 /**
  * permet d'activer ou non le bouton supprimer qui renvoie vers la page de supression
  *
  * @return void
  */
-function supprimer() {
-    if (enabled) {
-        window.location = "supprimer.php?row=" + (row);
-    }
-}
-function getPoint() {
-    col = itemSelected["column"]
-    row = itemSelected["row"]
-    if (col == 4) {
-        return row;
-    }
-}
+// function supprimer() {
+//     if (enabled) {
+//         window.location = "progression.php?row=" + (row);
+//     }
+// }
+
+
+/**
+ * retourne le point selectionné
+ * @returns ligne selectionnée
+ */
+// function getPoint() {
+//     if (col == 4) {
+//         return row;
+//     }
+// }

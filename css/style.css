@@ -84,6 +84,10 @@ a:hover, .navSelected {
     height: 30vh;
     float: left;
 }
+#btnSupprimer,#btnModifier
+{
+    visibility: hidden;
+}
 
 .supprimer, .modifier {
     width: 10vw;
