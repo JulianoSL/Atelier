@@ -57,7 +57,7 @@ google.charts.setOnLoadCallback(drawChart);
 /**
  * chercher les points à afficher sur le graphique
  */
-function recherchePoints() {
+function searchPoints() {
     tab.push(['Year', 'Obésité', 'Surpoids', 'Normal', 'Votre IMC', "Maigreur"]);
     if (record) {
         // tab = [];
@@ -95,17 +95,16 @@ window.onresize = resize;
  function getChartData()
  {
      fetch('http://127.0.0.1/Doc/Documentation/data.php')
-         .then(response => response.text(console.log(response)))
+         .then(response => response.text())
          .then((data) => {
              record = JSON.parse(data);
-             recherchePoints();
-             initChart();
-             console.log(record);
+             searchPoints();
+             initChart();            
          })
  }
  
  /**
-  * Initialization du graphique google chart
+  * Initialisation du graphique google chart
   */
 function initChart()
 {
@@ -131,7 +130,6 @@ function initChart()
     // var chart = new google.visualization.LineChart(document.getElementById('chart'));
     gChart = new google.visualization.AreaChart(document.getElementById('chart'));
 
-    console.log(tab);
     data = google.visualization.arrayToDataTable(tab);
 
     gChart.draw(data, options);
@@ -139,8 +137,8 @@ function initChart()
         //recupère l'élement selectionné dans le graphique 
         itemSelected = gChart.getSelection()[0];
         row = itemSelected["row"];
-
         col = itemSelected["column"];
+        // l'index 4 est celui qui correspond aux valeurs de l'utilisateur
         if (col == 4) {
             document.getElementById("btnSupprimer").style = "visibility:visible";
             document.getElementById("btnModifier").style = "visibility:visible";
@@ -156,8 +154,6 @@ function initChart()
             document.getElementById("Poids").value = record[row].Poids;
             document.getElementById("Taille").value = record[row].Taille;
             document.getElementById("Date").value = record[row].Date;
-
-
         } else {
             document.getElementById("btnSupprimer").style = "visibility:hidden";
             document.getElementById("btnModifier").style = "visibility:hidden";

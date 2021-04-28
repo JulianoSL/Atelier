@@ -79,7 +79,7 @@ if (isset($_POST["Calculer"])) {
           <label for="Taille">Taille en M : </label><input type="number" id="Taille" name="Taille" placeholder="1.50 M" min="0" max="2.5" step=".01" value="<?= $taille; ?>" required>
         </p>
         <p>
-          <label for="Poids">Poids en Kg : </label> <input type="number" id="Poids" name="Poids" placeholder="50 kg" min="0" step=".5" value="<?= $poids; ?>" required>
+          <label for="Poids">Poids en Kg : </label> <input type="number" id="Poids" name="Poids" placeholder="50 kg" min="0" step=".1" value="<?= $poids; ?>" required>
         </p>
         <p>
           <label for="Date">Date : </label> <input type="date" id="Date" name="Date" value="<?= $date; ?>" required>
