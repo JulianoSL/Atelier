@@ -13,38 +13,38 @@
  */
 
 // tout les seuils sont set à leurs valeurs max
-const OBESITE = 35;/**<constante qui définit le seuil d'obésité */
+const OBESITE = 35; /**<constante qui définit le seuil d'obésité */
 
-const SURPOIDS = 30;/**<constante qui définit le seuil de surpoids */
+const SURPOIDS = 30; /**<constante qui définit le seuil de surpoids */
 
-const MAIGREUR = 18.5;/**< constante qui définit le seuil de maigreur*/
+const MAIGREUR = 18.5; /**< constante qui définit le seuil de maigreur*/
 
-const NORMAL = 25;/**< constante qui définit le seuil normal*/
+const NORMAL = 25; /**< constante qui définit le seuil normal*/
 
 
-var gChart;/**<la variable du graphique */
+var gChart; /**<la variable du graphique */
 
-var data;/**<contient le graphique avec les données (non dessiné) */
+var data; /**<contient le graphique avec les données (non dessiné) */
 
-var itemSelected;/**<contient le point séléctionné sur le graphique */
+var itemSelected; /**<contient le point séléctionné sur le graphique */
 
-var row;/**<la ligne du graphique */
+var row; /**<la ligne du graphique */
 
-var col;/**<la colonne du graphique */
+var col; /**<la colonne du graphique */
 
-var value;/**<utilisé pour stocker la valeur correspondante au point séléctionné */
+var value; /**<utilisé pour stocker la valeur correspondante au point séléctionné */
 
-var enabled = false;/**<utilisé pour définir la propriété enabled des boutons modifier et supprimer */
+var enabled = false; /**<utilisé pour définir la propriété enabled des boutons modifier et supprimer */
 
-var imc;/**<l'indice de masse corporelle */
+var imc; /**<l'indice de masse corporelle */
 
-var date;/**<la date */
+var date; /**<la date */
 
-var tab = [];/**<le tableau contenant les données du graphiques */
+var tab = []; /**<le tableau contenant les données du graphiques */
 
-var options;/**<les options du graphique */
+var options; /**<les options du graphique */
 
-var record = [];/**<contient les données de la BD */
+var record = []; /**<contient les données de la BD */
 
 
 
@@ -60,7 +60,7 @@ google.charts.setOnLoadCallback(drawChart);
 function searchPoints() {
     tab.push(['Year', 'Obésité', 'Surpoids', 'Normal', 'Votre IMC', "Maigreur"]);
     if (record) {
-        record.forEach(function (value) {
+        record.forEach(function(value) {
             //calculer l'imc
             imc = value.Poids / Math.pow(value.Taille, 2);
             //arrondir a 1 décimale
@@ -92,7 +92,7 @@ window.onresize = resize;
  * Récupère les données en ajax
  */
 function getChartData() {
-    fetch('http://127.0.0.1/Doc/Documentation/data.php')
+    fetch(location.hostname + '/../data.php')
         .then(response => response.text())
         .then((data) => {
             record = JSON.parse(data);
@@ -130,7 +130,7 @@ function initChart() {
     data = google.visualization.arrayToDataTable(tab);
 
     gChart.draw(data, options);
-    google.visualization.events.addListener(gChart, 'select', function () {
+    google.visualization.events.addListener(gChart, 'select', function() {
         //recupère l'élement selectionné dans le graphique 
         itemSelected = gChart.getSelection()[0];
         row = itemSelected["row"];
@@ -142,13 +142,11 @@ function initChart() {
             if (record.length > 1) {
                 setPopupSuppr(record[row].idData, record[row].Poids, record[row].Taille, record[row].Date);
                 setPopupModif(record[row].idData, record[row].Poids, record[row].Taille, record[row].Date);
-            }
-            else {
+            } else {
                 setPopupSuppr(record[0].idData, record[0].Poids, record[0].Taille, record[0].Date);
                 setPopupModif(record[0].idData, record[0].Poids, record[0].Taille, record[0].Date);
             }
-        }
-        else {
+        } else {
             document.getElementById("btnSupprimer").style = "visibility:hidden";
             document.getElementById("btnModifier").style = "visibility:hidden";
         }
