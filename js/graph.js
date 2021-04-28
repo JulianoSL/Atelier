@@ -7,7 +7,7 @@
  *  \version   1.0
  *  \date      2021
  *  \pre       First initialize the system.
- *  \bug       
+ *  \bug       pas de bug
  *  \warning   
  *  \copyright JSL
  */
@@ -47,21 +47,18 @@ var options;/**<les options du graphique */
 var record = [];/**<contient les données de la BD */
 
 
-fetch('http://127.0.0.1/Doc/Documentation/data.php')
-    .then(response => response.text(console.log(response)))
-    .then((data) => {
-        record = JSON.parse(data);
-        console.log(record);
-    })
 
 google.charts.load('current', {
     'packages': ['corechart']
 });
+
 google.charts.setOnLoadCallback(drawChart);
+
 /**
  * chercher les points à afficher sur le graphique
  */
 function recherchePoints() {
+    tab.push(['Year', 'Obésité', 'Surpoids', 'Normal', 'Votre IMC', "Maigreur"]);
     if (record) {
         // tab = [];
         record.forEach(function (value) {
@@ -84,11 +81,34 @@ function recherchePoints() {
  * @return void
  */
 function drawChart() {
-    tab.push(['Year', 'Obésité', 'Surpoids', 'Normal', 'Votre IMC', "Maigreur"]);
-    recherchePoints();
-    console.log(tab);
-    data = google.visualization.arrayToDataTable(tab);
+    getChartData();
+}
 
+function resize() {
+    gChart.draw(data, options)
+}
+window.onresize = resize;
+
+/**
+ * Récupère les données en ajax
+ */
+ function getChartData()
+ {
+     fetch('http://127.0.0.1/Doc/Documentation/data.php')
+         .then(response => response.text(console.log(response)))
+         .then((data) => {
+             record = JSON.parse(data);
+             recherchePoints();
+             initChart();
+             console.log(record);
+         })
+ }
+ 
+ /**
+  * Initialization du graphique google chart
+  */
+function initChart()
+{
     options = {
         title: 'Graphique IMC',
         curveType: 'function',
@@ -110,6 +130,10 @@ function drawChart() {
 
     // var chart = new google.visualization.LineChart(document.getElementById('chart'));
     gChart = new google.visualization.AreaChart(document.getElementById('chart'));
+
+    console.log(tab);
+    data = google.visualization.arrayToDataTable(tab);
+
     gChart.draw(data, options);
     google.visualization.events.addListener(gChart, 'select', function () {
         //recupère l'élement selectionné dans le graphique 
@@ -140,13 +164,6 @@ function drawChart() {
         }
     });
 }
-function resize() {
-    gChart.draw(data, options)
-}
-window.onresize = resize;
-
-
-
 
 /**
  * permet d'activer ou non le bouton modifier qui renvoie vers la page de modification
