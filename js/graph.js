@@ -60,7 +60,6 @@ google.charts.setOnLoadCallback(drawChart);
 function searchPoints() {
     tab.push(['Year', 'Obésité', 'Surpoids', 'Normal', 'Votre IMC', "Maigreur"]);
     if (record) {
-        // tab = [];
         record.forEach(function (value) {
             //calculer l'imc
             imc = value.Poids / Math.pow(value.Taille, 2);
@@ -92,22 +91,20 @@ window.onresize = resize;
 /**
  * Récupère les données en ajax
  */
- function getChartData()
- {
-     fetch('http://127.0.0.1/Doc/Documentation/data.php')
-         .then(response => response.text())
-         .then((data) => {
-             record = JSON.parse(data);
-             searchPoints();
-             initChart();            
-         })
- }
- 
- /**
-  * Initialisation du graphique google chart
-  */
-function initChart()
-{
+function getChartData() {
+    fetch('http://127.0.0.1/Doc/Documentation/data.php')
+        .then(response => response.text())
+        .then((data) => {
+            record = JSON.parse(data);
+            searchPoints();
+            initChart();
+        })
+}
+
+/**
+ * Initialisation du graphique google chart
+ */
+function initChart() {
     options = {
         title: 'Graphique IMC',
         curveType: 'function',
@@ -142,25 +139,47 @@ function initChart()
         if (col == 4) {
             document.getElementById("btnSupprimer").style = "visibility:visible";
             document.getElementById("btnModifier").style = "visibility:visible";
-
-            // remplir la popup supprimer
-            document.getElementById("RecupIdSuppr").value = record[row].idData;
-            document.getElementById("SupprPoids").innerHTML = "Poids : " + record[row].Poids;
-            document.getElementById("SupprTaille").innerHTML = "Taille : " + record[row].Taille;
-            document.getElementById("SupprDate").innerHTML = "Date : " + record[row].Date;
-
-            //remplir la popup modifier
-            document.getElementById("RecupIdModif").value = record[row].idData;
-            document.getElementById("Poids").value = record[row].Poids;
-            document.getElementById("Taille").value = record[row].Taille;
-            document.getElementById("Date").value = record[row].Date;
-        } else {
+            if (record.length > 1) {
+                setPopupSuppr(record[row].idData, record[row].Poids, record[row].Taille, record[row].Date);
+                setPopupModif(record[row].idData, record[row].Poids, record[row].Taille, record[row].Date);
+            }
+            else {
+                setPopupSuppr(record[0].idData, record[0].Poids, record[0].Taille, record[0].Date);
+                setPopupModif(record[0].idData, record[0].Poids, record[0].Taille, record[0].Date);
+            }
+        }
+        else {
             document.getElementById("btnSupprimer").style = "visibility:hidden";
             document.getElementById("btnModifier").style = "visibility:hidden";
         }
     });
 }
-
+/**
+ * Set les valeurs de la popup supprimer
+ * @param int idData 
+ * @param double Poids 
+ * @param double Taille 
+ * @param date Date 
+ */
+function setPopupSuppr(idData, Poids, Taille, Date) {
+    document.getElementById("RecupIdSuppr").value = idData;
+    document.getElementById("SupprPoids").innerHTML = "Poids : " + Poids;
+    document.getElementById("SupprTaille").innerHTML = "Taille : " + Taille;
+    document.getElementById("SupprDate").innerHTML = "Date : " + Date;
+}
+/**
+ * Set les valeurs de la popup modifier
+ * @param int idData 
+ * @param double Poids 
+ * @param double Taille 
+ * @param date Date 
+ */
+function setPopupModif(idData, Poids, Taille, Date) {
+    document.getElementById("RecupIdModif").value = idData;
+    document.getElementById("Poids").value = Poids;
+    document.getElementById("Taille").value = Taille;
+    document.getElementById("Date").value = Date;
+}
 /**
  * permet d'activer ou non le bouton modifier qui renvoie vers la page de modification
  *

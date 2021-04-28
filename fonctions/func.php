@@ -412,3 +412,61 @@ function SetSession($param, $value)
 {
     $_SESSION[$param] = $value;
 }
+/**
+ * retourne la dernière taille en date de l'utilisateur
+ *
+ * @param int $idUtilisateur
+ * @return void
+ */
+function getLastTaille($idUtilisateur)
+{
+    static $ps = null;
+    $sql = "SELECT Taille FROM Data WHERE idUtilisateur = :IDUTILISATEUR ORDER BY Date DESC LIMIT 1";
+
+    $answer = false;
+    try {
+        if ($ps == null) {
+            $ps = dbImc()->prepare($sql);
+        }
+        $ps->bindParam(':IDUTILISATEUR', $idUtilisateur, PDO::PARAM_INT);
+        $ps->execute();
+
+        $answer = $ps->fetch();
+    } catch (Exception $e) {
+        $answer = array();
+        echo $e->getMessage();
+    }
+    if (!$answer) {
+        return "";
+    }
+    return $answer["Taille"];
+}
+/**
+ * retourne le dernier poids en date de l'utilisateur
+ *
+ * @param int $idUtilisateur
+ * @return void
+ */
+function getLastPoids($idUtilisateur)
+{
+    static $ps = null;
+    $sql = "SELECT Poids FROM Data WHERE idUtilisateur = :IDUTILISATEUR ORDER BY Date DESC LIMIT 1";
+
+    $answer = false;
+    try {
+        if ($ps == null) {
+            $ps = dbImc()->prepare($sql);
+        }
+        $ps->bindParam(':IDUTILISATEUR', $idUtilisateur, PDO::PARAM_INT);
+        $ps->execute();
+
+        $answer = $ps->fetch();
+    } catch (Exception $e) {
+        $answer = array();
+        echo $e->getMessage();
+    }
+    if (!$answer) {
+        return "";
+    }
+    return $answer["Poids"];
+}

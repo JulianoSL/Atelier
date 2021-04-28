@@ -29,6 +29,9 @@ $poids = "";
 $date = "";
 /**<la date qui correspond au poids et la taille de l'utilisateur */
 
+$taille = getLastTaille(GetSession("idUtilisateur"));
+$poids = getLastPoids(GetSession("idUtilisateur"));
+
 if (isset($_POST["Calculer"])) {
 
   $taille = filter_input(INPUT_POST, "Taille", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
