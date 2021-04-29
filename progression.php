@@ -37,6 +37,9 @@ if (isset($_POST["Supprimer"])) {
   $idData = filter_input(INPUT_POST, "RecupIdSuppr", FILTER_SANITIZE_STRING);
   if ($idData) {
     Supprimer($idData);
+    // reload pour éviter un bug de récupération des données dans le javascript
+    // si reload non effectué, le fetch du js arrive à appeler la page data.php alors qu'elle est vide juste après une suppression
+    header("Location:progression.php");
   }
 }
 if (isset($_POST["Modifier"])) {
