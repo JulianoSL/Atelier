@@ -58,7 +58,7 @@ if (isset($_POST["Connexion"])) {
 
 
     <!-- Bootstrap core CSS -->
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="../Documentation/css/bootsrap.min.css" rel="stylesheet">
 
     <!-- Favicons -->
     <!-- <link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
